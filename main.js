@@ -2,87 +2,54 @@ var numa;
 var numb;
 var operacion;
 
+const resultado = document.getElementById("resultado");
+const igual = document.getElementById("igual");
+const reset = document.getElementById("reset"); // getElementById trae un HTML OBJECT
 
-let resultado = document.getElementById("resultado");
-let siete = document.getElementById("siete");
-let ocho = document.getElementById("ocho");
-let nueve = document.getElementById("nueve");
-let division = document.getElementById("division");
-let cinco = document.getElementById("cinco");
-let seis = document.getElementById("seis");
-let cuatro = document.getElementById("cuatro");
-let tres = document.getElementById("tres");
-let dos = document.getElementById("dos");
-let cero = document.getElementById("cero");
-let resta = document.getElementById("resta");
-let suma = document.getElementById("suma");
-let uno = document.getElementById("uno");
-let multiplicacion = document.getElementById("multiplicacion");
-let igual = document.getElementById("igual");
-let reset = document.getElementById("reset");
+// getElementsByClassName trae un array de HTML OBJECT apartir de una o mas clases
+const calculatorButtonsNumbers = document.getElementsByClassName("calculator-button-numbers");
+const calculatorButtonsOperations = document.getElementsByClassName("calculator-button-operations");
 
-
-
-uno.onclick = function (e) {
-    resultado.textContent = resultado.textContent + "1";
-}
-dos.onclick = function (e) {
-    resultado.textContent = resultado.textContent + "2";
-}
-tres.onclick = function (e) {
-    resultado.textContent = resultado.textContent + "3";
-}
-cuatro.onclick = function (e) {
-    resultado.textContent = resultado.textContent + "4";
-}
-cinco.onclick = function (e) {
-    resultado.textContent = resultado.textContent + "5";
-}
-seis.onclick = function (e) {
-    resultado.textContent = resultado.textContent + "6";
-}
-siete.onclick = function (e) {
-    resultado.textContent = resultado.textContent + "7";
-}
-ocho.onclick = function (e) {
-    resultado.textContent = resultado.textContent + "8";
-}
-nueve.onclick = function (e) {
-    resultado.textContent = resultado.textContent + "9";
-}
-cero.onclick = function (e) {
-    resultado.textContent = resultado.textContent + "0";
-}
-reset.onclick = function (e) {
-    resetear();
+/**
+ * https://developer.mozilla.org/es/docs/Web/API/EventTarget/addEventListener
+ * 
+ * addEventListener: asocia una función en un evento especifico a un HTML OBJECT
+ * 1) evento
+ * 2) función que pasa el evento
+ */
+for (let index = 0; index < calculatorButtonsNumbers.length; index++) {
+    const calculatorButtonNumber = calculatorButtonsNumbers[index];
+    calculatorButtonNumber.addEventListener('click', seleccionarValor);
+    calculatorButtonNumber.addEventListener('click', imprimir);
 }
 
+for (let index = 0; index < calculatorButtonsOperations.length; index++) {
+    const calculatorButtonOperation = calculatorButtonsOperations[index];
+    calculatorButtonOperation.addEventListener('click', seleccionarValorOperations);
+    calculatorButtonOperation.addEventListener('click', imprimir);
+}
 
-suma.onclick = function (e) {
+igual.addEventListener('click', igualFunction);
+reset.addEventListener('click', resetear);
+
+function imprimir(evento) {
+    console.log('Apretaste el boton: ' + evento.target.value);
+}
+
+function seleccionarValor(evento) {
+    resultado.textContent = resultado.textContent + evento.target.value;
+}
+
+function seleccionarValorOperations(evento) {
     numa = resultado.textContent;
-    operacion = "+";
+    operacion = evento.target.value;
     limpiar();
 }
-division.onclick = function (e) {
-    numa = resultado.textContent;
-    operacion = "/";
-    limpiar();
-}
-multiplicacion.onclick = function (e) {
-    numa = resultado.textContent;
-    operacion = "*";
-    limpiar();
-}
-resta.onclick = function (e) {
-    numa = resultado.textContent;
-    operacion = "-";
-    limpiar();
-}
-igual.onclick = function (e) {
+
+function igualFunction(evento) {
     numb = resultado.textContent;
     resolver();
 }
-
 
 function limpiar() {
     resultado.textContent = "";
@@ -96,25 +63,32 @@ function resetear() {
 }
 
 function resolver() {
-    var res = "0";
+    var res = 0;
+
     switch (operacion) {
         case "+" : 
-            res = numa + numb;
+            res = parseInt(numa) + parseInt(numb);
             break;
         
         case "-" : 
-            res = numa - numb;
+            res = parseInt(numa) - parseInt(numb);
             break;
         
         case "/" : 
-            res = numa / numb;
+            res = parseInt(numa) / parseInt(numb);
             break;
         
         case "*" : 
-            res = numa * numb;
+            res = parseInt(numa) * parseInt(numb);
             break;
         
     }
+
     resetear();
     resultado.textContent = res;
 }
+
+// 1) que pueda sumar de a N números, reemplazar numa y numb por un array.   === 1 + 2 + 3 + 4 ... N
+// 2) que pueda sumar y restar de a N números, agregar al array las operaciones. isNaN( ... )  === 1 + 6 - 2 ... N 
+// [ 1, 2, '+', 4] = 16;
+// [ 12, '+', 4] = 16;

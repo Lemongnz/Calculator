@@ -7,34 +7,34 @@
     <title>Calculadora Precozzz</title>
     <link rel="stylesheet" href="main.css">
 </head>
-<body onload="init();">
+<body>
     <table class="calculadora">
         <tr>
             <td id="wrap__res" colspan="4"><span id="resultado"></span></td>
         </tr>
         <tr>
-            <td><button id="siete">7</button></td>
-            <td><button id="ocho">8</button></td>
-            <td><button id="nueve">9</button></td>
-            <td><button id="division">/</button></td>
+            <td><button class="calculator-button-numbers" value="7" id="siete">7</button></td>
+            <td><button class="calculator-button-numbers" value="8" id="ocho">8</button></td>
+            <td><button class="calculator-button-numbers" value="9" id="nueve">9</button></td>
+            <td><button class="calculator-button-operations" value="/" id="division">/</button></td>
         </tr>
         <tr>
-            <td><button id="cuatro">4</button></td>
-            <td><button id="cinco">5</button></td>
-            <td><button id="seis">6</button></td>
-            <td><button id="multiplicacion">*</button></td>
+            <td><button class="calculator-button-numbers" value="4" id="cuatro">4</button></td>
+            <td><button class="calculator-button-numbers" value="5" id="cinco">5</button></td>
+            <td><button class="calculator-button-numbers" value="6" id="seis">6</button></td>
+            <td><button class="calculator-button-operations" value="*" id="multiplicacion">*</button></td>
         </tr>
         <tr>
-            <td><button id="uno">1</button></td>
-            <td><button id="dos">2</button></td>
-            <td><button id="tres">3</button></td>
-            <td><button id="resta">-</button></td>
+            <td><button class="calculator-button-numbers" value="1" id="uno">1</button></td>
+            <td><button class="calculator-button-numbers" value="2" id="dos">2</button></td>
+            <td><button class="calculator-button-numbers" value="3" id="tres">3</button></td>
+            <td><button class="calculator-button-operations" value="-" id="resta">-</button></td>
         </tr>
         <tr>
-            <td><button id="cero">0</button></td>
-            <td><button id="igual">=</button></td>
-            <td><button id="reset">C</button></td>
-            <td><button id="suma">+</button></td>
+            <td><button class="calculator-button-numbers" value="0" id="cero">0</button></td>
+            <td><button class="calculator-button" value="=" id="igual">=</button></td>
+            <td><button class="calculator-button" value="C" id="reset">C</button></td>
+            <td><button class="calculator-button-operations" value="+" id="suma">+</button></td>
         </tr>
     </table>
 </body>
