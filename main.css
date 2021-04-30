@@ -52,4 +52,19 @@ body {
     font-weight: 500;
     word-break: break-word;
 }
+#wrap__numb {
+    position: flex;
+    text-align: end;
+    vertical-align: bottom;
+    height: 50px;
+    width: 300px;
+    background-color: rgb(10, 44, 71);
+    color: rgb(141, 151, 45);
+    font-size: 30px;
+    font-weight: 500;
+    word-break: break-word;
+}
 
+table {
+    border-collapse: collapse;
+}

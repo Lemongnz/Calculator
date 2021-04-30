@@ -1,94 +1,125 @@
-var numa;
-var numb;
-var operacion;
+let operation = []; //declaramos el primer array, aca se van a guardar los numeros cuando sean clickeados
+const igual = document.getElementById("igual");  //guardamos en una variable los numeros
+const reset = document.getElementById("reset")
+const calculatorButtonsNumbers = document.getElementsByClassName("calculator-button-numbers");  //guardamos en una variable los numeros
+const calculatorButtonsOperations = document.getElementsByClassName("calculator-button-operations"); //guardamos en una variable las operaciones
+let operationFinal = []; //declaramos un array, se va a guardar la operacion lista para finalizar.
+const valorAnterior = [];
 
-const resultado = document.getElementById("resultado");
-const igual = document.getElementById("igual");
-const reset = document.getElementById("reset"); // getElementById trae un HTML OBJECT
 
-// getElementsByClassName trae un array de HTML OBJECT apartir de una o mas clases
-const calculatorButtonsNumbers = document.getElementsByClassName("calculator-button-numbers");
-const calculatorButtonsOperations = document.getElementsByClassName("calculator-button-operations");
-
-/**
- * https://developer.mozilla.org/es/docs/Web/API/EventTarget/addEventListener
- * 
- * addEventListener: asocia una función en un evento especifico a un HTML OBJECT
- * 1) evento
- * 2) función que pasa el evento
- */
+// escucha el evento 'click' y lo guarda en la variable (numeros)
 for (let index = 0; index < calculatorButtonsNumbers.length; index++) {
     const calculatorButtonNumber = calculatorButtonsNumbers[index];
-    calculatorButtonNumber.addEventListener('click', seleccionarValor);
-    calculatorButtonNumber.addEventListener('click', imprimir);
-}
+    calculatorButtonNumber.addEventListener('click', mostrarOperacion);
+    calculatorButtonNumber.addEventListener('click', agregar);
 
+}
+//escucha el evento 'click' y lo guareda en la variable (operadores)
 for (let index = 0; index < calculatorButtonsOperations.length; index++) {
     const calculatorButtonOperation = calculatorButtonsOperations[index];
-    calculatorButtonOperation.addEventListener('click', seleccionarValorOperations);
-    calculatorButtonOperation.addEventListener('click', imprimir);
+    calculatorButtonOperation.addEventListener('click', mostrarOperacion);
+    calculatorButtonOperation.addEventListener('click', agregar);
 }
 
-igual.addEventListener('click', igualFunction);
-reset.addEventListener('click', resetear);
-
-function imprimir(evento) {
-    console.log('Apretaste el boton: ' + evento.target.value);
+function agregar(evento) {
+    let caracter = evento.target.value;
+    operation.push(caracter);
 }
 
-function seleccionarValor(evento) {
-    resultado.textContent = resultado.textContent + evento.target.value;
-}
-
-function seleccionarValorOperations(evento) {
-    numa = resultado.textContent;
-    operacion = evento.target.value;
-    limpiar();
-}
-
-function igualFunction(evento) {
-    numb = resultado.textContent;
-    resolver();
-}
-
-function limpiar() {
-    resultado.textContent = "";
+function mostrarOperacion(evento) {
+    number.textContent = number.textContent + evento.target.value;
 }
 
 function resetear() {
+    number.textContent = "";
     resultado.textContent = "";
-    numa = "0";
-    numb = "0";
-    operacion = "";
+    operation = [];
+    resultadoFinal = '';
+    operationFinal = '';
 }
+reset.addEventListener('click', resetear)
 
 function resolver() {
-    var res = 0;
-
-    switch (operacion) {
-        case "+" : 
-            res = parseInt(numa) + parseInt(numb);
-            break;
-        
-        case "-" : 
-            res = parseInt(numa) - parseInt(numb);
-            break;
-        
-        case "/" : 
-            res = parseInt(numa) / parseInt(numb);
-            break;
-        
-        case "*" : 
-            res = parseInt(numa) * parseInt(numb);
-            break;
-        
-    }
-
-    resetear();
-    resultado.textContent = res;
+    resolverPrimeraParte();
+    resolverSegundaParte();
+    operationFinal = [];
+    resultado.textContent = resultadoFinal;
 }
 
-// 1) que pueda sumar de a N números, reemplazar numa y numb por un array.   === 1 + 2 + 3 + 4 ... N
-// 2) que pueda sumar y restar de a N números, agregar al array las operaciones. isNaN( ... )  === 1 + 6 - 2 ... N 
-// [ 1, 2, '+', 4] = 16;
-// [ 12, '+', 4] = 16;
+igual.addEventListener('click', resolver);
+
+function resolverPrimeraParte() {
+    let valorAnterior = '';
+    operation.forEach((valor, indice) => {
+        if (!isNaN(valor)) { 
+            valorAnterior = valorAnterior + valor;
+            if (indice == operation.length - 1) { 
+                operationFinal.push(valorAnterior); 
+            }
+        } else { 
+            operationFinal.push(valorAnterior); 
+            valorAnterior = '';
+            operationFinal.push(valor);        
+        }
+    });
+    return operationFinal;
+}
+
+let resultadoFinal = undefined;
+// obtener el resultado
+function resolverSegundaParte() {
+    // operationsFinal = ['95', '+', '5', '-', '10'];   
+    let indiceAnterior = undefined;
+    let operacionPrevia = '';
+
+    operationFinal.forEach((valor, indice) => { 
+        if (indiceAnterior !== indice) { 
+            if (isNaN(valor)) {
+                indiceAnterior = indice + 1; 
+                let valorSiguiente = operationFinal[indiceAnterior];
+
+                if (resultadoFinal === undefined) { 
+                    resultadoFinal = calcular(operacionPrevia, valor, valorSiguiente); 
+                    console.log('H', resultadoFinal);
+                } else {
+                    console.log('J', resultadoFinal, valor, valorSiguiente)
+                    resultadoFinal  = calcular(resultadoFinal, valor, valorSiguiente);
+                }
+            } else {
+                operacionPrevia = valor;
+            }
+        }
+    });
+
+    console.log('el resultado final es:', resultadoFinal); 
+        // no lo estoy guardando en ningun lugar
+    return resultadoFinal;
+}
+
+function calcular(num1, operador, num2) {
+    num1 = parseInt(num1);
+    num2 = parseInt(num2);
+    let res = 0;
+    
+
+    switch (operador) {
+        case '+':
+            res = num1 + num2;
+            break;
+        case '-':
+            res = num1 - num2;
+            break;
+        case '*':
+            res = num1 * num2;
+            break;
+        case '/':
+            res = num1 / num2;
+            break;
+    
+        default:
+            break;
+    }
+    return res;
+}
+
+
